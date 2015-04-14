@@ -4,24 +4,24 @@
 #define MAX 2<<24
 using namespace std;
 
-/* ÕâÀï¼ò»¯ÁËÉú³ÉÎ»ÏòÁ¿µÄ¹ı³Ì
- * Í¨³£¹ı³ÌÓ¦¸ÃÊÇÓÉÔªËØ¸öÊınºÍ´íÎóÂÊpÉú³ÉÎ»ÏòÁ¿³¤¶Èm
- * ÍÆµ¼¹«Ê½£ºp = 2^[-(m/n)ln(2)]
- * ¹Êm = -n*ln(p)/[ln(2)]^2
- *     ¡Ö-2*n*lnp    
+/* è¿™é‡Œç®€åŒ–äº†ç”Ÿæˆä½å‘é‡çš„è¿‡ç¨‹
+ * é€šå¸¸è¿‡ç¨‹åº”è¯¥æ˜¯ç”±å…ƒç´ ä¸ªæ•°nå’Œé”™è¯¯ç‡pç”Ÿæˆä½å‘é‡é•¿åº¦m
+ * æ¨å¯¼å…¬å¼ï¼šp = 2^[-(m/n)ln(2)]
+ * æ•…m = -n*ln(p)/[ln(2)]^2
+ *     â‰ˆ-2*n*lnp    
  *     = 2*n*ln(1/p)
  */
 bitset<MAX> bloomSet;
 
-/* ÕâÀïÍ¬Ñù¼ò»¯ÁËÉú³Éhashº¯ÊıËùÓÃÖÊÊıµÄ¹ı³Ì
- * hashº¯ÊıµÄ¸öÊıkÓëm,nµÄ¹ØÏµÈçÏÂ£º
- * k = (m/n)*ln2 ¡Ö0.7*(m/n)
+/* è¿™é‡ŒåŒæ ·ç®€åŒ–äº†ç”Ÿæˆhashå‡½æ•°æ‰€ç”¨è´¨æ•°çš„è¿‡ç¨‹
+ * hashå‡½æ•°çš„ä¸ªæ•°kä¸m,nçš„å…³ç³»å¦‚ä¸‹ï¼š
+ * k = (m/n)*ln2 â‰ˆ0.7*(m/n)
  * 
- * Õı³£Çé¿öÏÂÓ¦¸ÃÑ¡È¡k¸ö²»Í¬µÄÖÊÊı×÷Îªseeds
+ * æ­£å¸¸æƒ…å†µä¸‹åº”è¯¥é€‰å–kä¸ªä¸åŒçš„è´¨æ•°ä½œä¸ºseeds
  */
-int seeds[7]={3,7,11,13,31,37,61};           //Ê¹ÓÃ7¸öhashº¯Êı
+int seeds[7]={3,7,11,13,31,37,61};           //ä½¿ç”¨7ä¸ªhashå‡½æ•°
 
-int getHashValue(string str,int n){          //¼ÆËãhashÖµ
+int getHashValue(string str,int n){          //è®¡ç®—hashå€¼
     int result=0;
     for(int i=0;i<str.size();++i){
         result=seeds[n]*result+(int)str[i];
@@ -31,7 +31,7 @@ int getHashValue(string str,int n){          //¼ÆËãhashÖµ
     return result;
 }
 
-bool isInBloomSet(string str){               //ÅĞ¶ÏÊÇ·ñÔÚ²¼Â¡¹ıÂËÆ÷ÖĞ
+bool isInBloomSet(string str){               //åˆ¤æ–­æ˜¯å¦åœ¨å¸ƒéš†è¿‡æ»¤å™¨ä¸­
     for(int i=0;i<7;++i){
         int hash=getHashValue(str,i);
         if(bloomSet[hash]==0)
@@ -40,18 +40,18 @@ bool isInBloomSet(string str){               //ÅĞ¶ÏÊÇ·ñÔÚ²¼Â¡¹ıÂËÆ÷ÖĞ
     return true;
 }
 
-void addToBloomSet(string str){               //Ìí¼ÓÔªËØµ½²¼Â¡¹ıÂËÆ÷ 
+void addToBloomSet(string str){               //æ·»åŠ å…ƒç´ åˆ°å¸ƒéš†è¿‡æ»¤å™¨ 
     for(int i=0;i<7;i++){
         int hash=getHashValue(str,i);
         bloomSet.set(hash,1);
     }
 }
 
-void initBloomSet(){                          //³õÊ¼»¯²¼Â¡¹ıÂËÆ÷
+void initBloomSet(){                          //åˆå§‹åŒ–å¸ƒéš†è¿‡æ»¤å™¨
     addToBloomSet("http://www.baidu.com");
     addToBloomSet("http://www.sina.com.cn");
     addToBloomSet("http://www.google.com");
-    //ÕâÀïÒ²¿ÉÒÔÓÃ¶ÁÈëÎÄ¼şµÄ·½Ê½µ¼Èë´óÁ¿ÍøÖ·
+    //è¿™é‡Œä¹Ÿå¯ä»¥ç”¨è¯»å…¥æ–‡ä»¶çš„æ–¹å¼å¯¼å…¥å¤§é‡ç½‘å€
 }
 
 int main(){

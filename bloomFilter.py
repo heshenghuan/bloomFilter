@@ -1,5 +1,5 @@
 #!/usr/bin
-#coding=gbk
+#coding=utf-8
 
 import cmath
 from BitVector import BitVector
