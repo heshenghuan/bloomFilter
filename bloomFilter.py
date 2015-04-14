@@ -7,24 +7,24 @@ import random
 
 class BloomFilter(object):
     def __init__(self,error_rate,elementNum):
-        #计算最佳bitVector向量长度
+        #calculate the best length of bitVector
         #bit_num = -n*ln(p)/[ln(2)]^2
         self.bit_num=-1*elementNum*cmath.log(error_rate)/(cmath.log(2.0)*cmath.log(2.0))
 
-        #四字节对齐
+        #four-byte alignment
         self.bit_num=self.align_4byte(self.bit_num.real)
-        #分配内存
+        #allocate memory
         self.bit_array = BitVector(size=self.bit_num)
 
         '''
-        计算hash种子数
+        calculate hash seeds num
         hash_num=cmath.log(2.0)*(bit_num/n)
-        并向上取整
+        round up to an integer
         '''
         self.hash_num=cmath.log(2.0)*(self.bit_num/elementNum)
         self.hash_num=int(self.hash_num.real)+1
 
-        #产生hash函数种子
+        #produce hash seed
         self.hash_seeds=self.generate_hashseeds(self.hash_num)
 
     def get_hash_value(self,element,seed):
@@ -39,7 +39,7 @@ class BloomFilter(object):
     def insert_element(self,element):
         for seed in self.hash_seeds:
             hash_val=self.get_hash_value(element,seed)
-            #设置对应位为1
+            #set bit to one
             self.bit_array[hash_val]=1
 
     def is_element_exist(self,element):
